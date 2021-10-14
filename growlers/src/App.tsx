@@ -5,8 +5,10 @@ import { SimpleGrid, Text, ChakraProvider } from "@chakra-ui/react";
 import Search from "./components/Search";
 import Taps from "./components/Taps";
 import Cart from "./components/Cart";
-
+import { load } from "./store";
 import "./index.css";
+
+load("hv-taplist");
 
 const H3 = ({ children }) => (
   <Text fontSize="xl" mb={3} fontWeight="bold" textAlign="center">
