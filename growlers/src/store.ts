@@ -1,10 +1,14 @@
 import { proxy } from "valtio";
+import Cart from "./components/Cart";
 import { Beverage } from "./types";
 
+export interface CartItem extends Beverage {
+  quantity: number;
+}
 export interface TapStore {
   taps: Beverage[];
   filteredTaps: Beverage[];
-  cart: Beverage[];
+  cart: CartItem[];
   searchText: string;
   alcoholLimit: number;
 }
@@ -45,8 +49,24 @@ export const setAlcoholLimit = (limit: number): void => {
   store.filteredTaps = filter();
 };
 
+const getItemIndexFromCart = (beverage: Beverage): number => {
+  return store.cart.findIndex(
+    (item) =>
+      item.abv === beverage.abv &&
+      item.beverageName === beverage.beverageName &&
+      item.producerName === item.producerName
+  );
+};
+
 export const addToCart = (beverage: Beverage): void => {
-  store.cart.push(beverage);
+  const index = getItemIndexFromCart(beverage);
+
+  if (index < 0) {
+    const newV: CartItem = { ...beverage, quantity: 1 };
+    store.cart.push(newV);
+    return;
+  }
+  store.cart[index].quantity += 1;
 };
 
 export default store;

@@ -9,26 +9,30 @@ const Cart = () => {
   const { cart } = useSnapshot(store);
   return (
     <Box border={MFE_BORDER}>
-      {cart.map((beverage) => (
+      {cart.map((cartItem) => (
         <Box
           borderBottom="1px"
           borderBottomColor="gray.200"
           mb={3}
-          key={[beverage.producerName, beverage.beverageName].join("")}
+          key={[cartItem.producerName, cartItem.beverageName].join("")}
         >
           <Box>
             <Text fontSize="2xl">
-              <strong>{beverage.producerName}</strong>&nbsp;
-              {beverage.beverageName}
+              <strong>{cartItem.producerName}</strong>&nbsp;
+              {cartItem.beverageName}
             </Text>
           </Box>
           <Box>
-            <Text>{beverage.beverageStyle}</Text>
+            <Text>
+              {cartItem.beverageStyle}&nbsp; ({cartItem.quantity})
+            </Text>
           </Box>
         </Box>
       ))}
       <Box>
-        <Button width="100%">Checkout</Button>
+        <Button width="100%" onClick={() => (store.cart = [])}>
+          Checkout
+        </Button>
       </Box>
     </Box>
   );
